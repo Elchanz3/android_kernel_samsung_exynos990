@@ -39,9 +39,13 @@ set_perm_recursive 0 0 750 750 $ramdisk/init* $ramdisk/sbin;
 ## AnyKernel boot install
 dump_boot;
 
-# begin ramdisk changes
+twrp mount system
+mount -o rw,remount /system_root
 
-# end ramdisk changes
+patch_prop /system_root/system/build.prop persist.sys.fuse.passthrough.enable true
+
+# Some folks flash this kernel using FKM
+patch_prop /system/build.prop persist.sys.fuse.passthrough.enable true
 
 write_boot;
 ## end boot install
